@@ -1,0 +1,9 @@
+{
+  "player": {
+    "character": "karla",
+    "animationName": "idle_down",
+    "horizontalPosition": 144,
+    "verticalPosition":  208
+  },
+  "location": "beach"
+}

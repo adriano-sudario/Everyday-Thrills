@@ -1,0 +1,132 @@
+{ "frames": [
+   {
+    "filename": "04_Rocco_walk 0.png",
+    "frame": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 1.png",
+    "frame": { "x": 14, "y": 0, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 2.png",
+    "frame": { "x": 28, "y": 0, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 3.png",
+    "frame": { "x": 0, "y": 16, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 4.png",
+    "frame": { "x": 14, "y": 16, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 5.png",
+    "frame": { "x": 28, "y": 16, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 6.png",
+    "frame": { "x": 0, "y": 32, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 7.png",
+    "frame": { "x": 14, "y": 32, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 8.png",
+    "frame": { "x": 28, "y": 32, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 9.png",
+    "frame": { "x": 0, "y": 48, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 10.png",
+    "frame": { "x": 14, "y": 48, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   },
+   {
+    "filename": "04_Rocco_walk 11.png",
+    "frame": { "x": 28, "y": 48, "w": 14, "h": 16 },
+    "rotated": false,
+    "trimmed": false,
+    "spriteSourceSize": { "x": 0, "y": 0, "w": 14, "h": 16 },
+    "sourceSize": { "w": 14, "h": 16 },
+    "duration": 100
+   }
+ ],
+ "meta": {
+  "app": "http://www.aseprite.org/",
+  "version": "1.1.13",
+  "image": "rocco",
+  "format": "I8",
+  "size": { "w": 42, "h": 64 },
+  "scale": "1",
+  "frameTags": [
+   { "name": "walk_up", "sequence": [ 0, 1, 2, 1 ], "direction": "forward" },
+   { "name": "walk_right", "sequence": [ 3, 4, 5, 4 ], "direction": "forward" },
+   { "name": "walk_down", "sequence": [ 6, 7, 8, 7 ], "direction": "forward" },
+   { "name": "walk_left", "sequence": [ 9, 10, 11, 10 ], "direction": "forward" },
+   { "name": "idle_up", "sequence": [ 1 ], "direction": "forward" },
+   { "name": "idle_right", "sequence": [ 4 ], "direction": "forward" },
+   { "name": "idle_down", "sequence": [ 7 ], "direction": "forward" },
+   { "name": "idle_left", "sequence": [ 10 ], "direction": "forward" }
+  ],
+  "layers": [
+   { "name": "Sprite Sheet", "opacity": 255, "blendMode": "normal" }
+  ]
+ }
+}

@@ -3,6 +3,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using EverydayThrills.Drawables;
+using EverydayThrills.Code;
 
 namespace EverydayThrills
 {
@@ -14,11 +16,22 @@ namespace EverydayThrills
 		GraphicsDeviceManager graphics;
 		SpriteBatch spriteBatch;
 
-		public Game1()
+        private static int _screenWidth;
+        private static int _screenHeight;
+
+        public static int ScreenWidth { get { return _screenWidth; } }
+
+        public static int ScreenHeight { get { return _screenHeight; } }
+
+        Player player;
+
+        public Game1()
 		{
 			graphics = new GraphicsDeviceManager(this);
 			Content.RootDirectory = "Content";
-		}
+
+            IsMouseVisible = true;
+        }
 
 		/// <summary>
 		/// Allows the game to perform any initialization it needs to before starting to run.
@@ -28,9 +41,16 @@ namespace EverydayThrills
 		/// </summary>
 		protected override void Initialize()
 		{
-			// TODO: Add your initialization logic here
+            //800 px - 50 tiles (16px tiles)
+            _screenWidth = GraphicsDevice.Viewport.Width;
+            //480 px - 30 tiles (16px tiles)
+            _screenHeight = GraphicsDevice.Viewport.Height;
 
-			base.Initialize();
+            player = new Player();
+
+            Loader.Initialize(Content);
+
+            base.Initialize();
 		}
 
 		/// <summary>
