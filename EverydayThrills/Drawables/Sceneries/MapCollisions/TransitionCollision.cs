@@ -16,12 +16,12 @@ namespace EverydayThrills.Drawables.Sceneries.MapCollisions
         {
             ToId = toId;
             ToMap = toMap;
-            CollisionOccurred += TransitionCollision_CollisionOccurred;
+            CollisionOccurred += OnCollisionOccurred;
         }
 
-        private void TransitionCollision_CollisionOccurred(object sender, CollisionEventArgs e)
+        private void OnCollisionOccurred(object sender, CollisionEventArgs e)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

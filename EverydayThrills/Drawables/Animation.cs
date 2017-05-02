@@ -20,9 +20,10 @@ namespace EverydayThrills.Drawables
         int frameDuration;
         int currentFrame;
         int[] sequence;
-        bool hasFrameChanged;
         bool isActive;
         bool isLooping;
+        bool hasFrameChanged;
+        string _animationName;
         Color color;
         Rectangle sourceRectangle;
         Vector2 position;
@@ -31,18 +32,33 @@ namespace EverydayThrills.Drawables
 
         public string AnimationName
         {
-            get { return AnimationName; }
+            get { return _animationName; }
             set
             {
                 if (value != AnimationName)
                 {
-                    AnimationName = value;
+                    _animationName = value;
                     SetSequence();
                 }
             }
         }
 
-        public bool HasFrameChanged { get { return hasFrameChanged; } }
+        public float HorizontalPosition
+        {
+            get { return position.X; }
+            set
+            {
+                position.X = value;
+            }
+        }
+
+        public float VerticalPosition
+        {
+            get { return position.Y; }
+            set { position.Y = value; }
+        }
+
+        //public bool HasFrameChanged { get { return _hasFrameChanged; } set { _hasFrameChanged = value; } }
 
         //public AnimationFrame CollisionFrame
         //{

@@ -12,7 +12,9 @@ namespace EverydayThrills.Drawables.Sceneries.MapCollisions
         public class CollisionEventArgs : EventArgs
         {
             public Player Player { get; set; }
+            public Map Map { get; set; }
             public Rectangle RectangleCollided { get; set; }
+            public Rectangle IntersectedRectangle { get; set; }
         }
 
         public Rectangle Rectangle;
@@ -23,15 +25,17 @@ namespace EverydayThrills.Drawables.Sceneries.MapCollisions
             Rectangle = collisionRectangle;
         }
 
-        public void Check(Player player, MapCollision collision)
+        public void Check(Player player, Map map)
         {
-            Rectangle playerCollisionRectangle = player.CollisionRectangle;
+            Rectangle intersectedRectangle = Rectangle.Intersect(player.CollisionRectangle, Rectangle);
 
-            if (collision.Rectangle.Intersects(playerCollisionRectangle))
+            if (!intersectedRectangle.IsEmpty)
             {
                 CollisionEventArgs args = new CollisionEventArgs();
                 args.Player = player;
+                args.Map = map;
                 args.RectangleCollided = Rectangle;
+                args.IntersectedRectangle = intersectedRectangle;
                 OnCollisionOccurred(args);
             }
         }

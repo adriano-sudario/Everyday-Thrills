@@ -32,14 +32,21 @@ namespace EverydayThrills.JsonModels
         {
             public string Name;
             public LayerObject[] Objects;
-            public LayerType Type;
+            public LayerType LayerType;
 
             [JsonConstructor]
             public Layer(string name, LayerObject[] objects)
             {
-                Name = name;
-                Objects = objects;
-                SetType(name);
+                try
+                {
+                    Name = name;
+                    Objects = objects;
+                    SetType(name);
+                }
+                catch (Exception ex)
+                {
+                    string pqp = ex.Message;
+                }
             }
 
             public void SetType(string name)
@@ -47,23 +54,23 @@ namespace EverydayThrills.JsonModels
                 switch (name)
                 {
                     case "parallax":
-                        Type = LayerType.Parallax;
+                        LayerType = LayerType.Parallax;
                         break;
 
                     case "background":
-                        Type = LayerType.Background;
+                        LayerType = LayerType.Background;
                         break;
 
                     case "sceneryElements":
-                        Type = LayerType.SceneryElements;
+                        LayerType = LayerType.SceneryElements;
                         break;
 
                     case "pathBlock":
-                        Type = LayerType.PathBlock;
+                        LayerType = LayerType.PathBlock;
                         break;
 
                     case "transition":
-                        Type = LayerType.Transition;
+                        LayerType = LayerType.Transition;
                         break;
                 }
             }
@@ -90,29 +97,43 @@ namespace EverydayThrills.JsonModels
 
             [JsonConstructor]
             public LayerObject(int id, int width, int height, int x, int y, string type, 
-                               LayerCustomProperties properties)
+                               LayerCustomProperties properties, LayerAnimationInfo animation)
             {
                 Id = id;
                 Width = width;
                 Height = height;
                 X = x;
                 Y = y;
+                if (type != "collision")
+                    Y -= height;
                 Type = type;
 
-                Direction = properties.Direction;
-                MoveSpeed = properties.MoveSpeed;
-                if (properties.Source != null)
-                    Source = new Rectangle((int)properties.Source.Value.X, (int)properties.Source.Value.X,
-                                           Width, Height);
-                if (properties.Collision != null)
-                    Collision = properties.Collision.Value;
-                ToId = properties.ToId;
-                ToMap = properties.ToMap;
-
-                AnimationRandomness = properties.AnimationRandomness;
-                foreach (LayerAnimationSource s in properties.AnimationSequenceSource)
+                if (properties != null)
                 {
-                    AnimationSequence.Add(new Rectangle((int)s.Source.X, (int)s.Source.Y, Width, Height));
+                    Direction = properties.Direction;
+                    MoveSpeed = properties.MoveSpeed;
+                    if (properties.Source.HasValue)
+                        Source = new Rectangle((int)properties.Source.Value.X, (int)properties.Source.Value.Y,
+                                               Width, Height);
+                    if (properties.Collision.HasValue)
+                    {
+                        Collision = new Rectangle(properties.Collision.Value.X + X, properties.Collision.Value.Y + Y,
+                                                  properties.Collision.Value.Width, properties.Collision.Value.Height);
+                    }
+                    ToId = properties.ToId;
+                    ToMap = properties.ToMap;
+                }
+
+                if (animation != null)
+                {
+                    AnimationRandomness = animation.Randomness;
+                    LayerAnimationSource[] animationSequenceSource = animation.Sequence;
+                    AnimationSequence = new List<Rectangle>();
+
+                    foreach (LayerAnimationSource s in animationSequenceSource)
+                    {
+                        AnimationSequence.Add(new Rectangle((int)s.Source.X, (int)s.Source.Y, Width, Height));
+                    }
                 }
             }
         }
@@ -126,12 +147,9 @@ namespace EverydayThrills.JsonModels
             public int? ToId;
             public string ToMap;
 
-            public float? AnimationRandomness;
-            public LayerAnimationSource[] AnimationSequenceSource;
-
             [JsonConstructor]
             public LayerCustomProperties(string direction, float moveSpeed, string source, string collision,
-                                         int toId, string toMap, LayerAnimationInfo animation)
+                                         int toId, string toMap)
             {
                 Direction = direction;
                 MoveSpeed = moveSpeed;
@@ -139,10 +157,6 @@ namespace EverydayThrills.JsonModels
                 Collision = StringToRectangle(collision);
                 ToId = toId;
                 ToMap = toMap;
-                if (animation == null)
-                    return;
-                AnimationRandomness = animation.Randomness;
-                AnimationSequenceSource = animation.Sequence;
             }
 
             private Rectangle? StringToRectangle(string rectangle)

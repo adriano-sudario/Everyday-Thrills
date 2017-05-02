@@ -61,7 +61,7 @@
 /processorParam:TextureFormat=Color
 /build:Graphics/rocco.png
 
-#begin Graphics/demo_objects.png
+#begin Graphics/mapAtlas.png
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,5 +71,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Graphics/demo_objects.png
+/build:Graphics/mapAtlas.png
 

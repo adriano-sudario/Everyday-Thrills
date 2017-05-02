@@ -5,6 +5,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EverydayThrills.Drawables;
 using EverydayThrills.Code;
+using EverydayThrills.Screens;
+using EverydayThrills.Drawables.Sceneries;
+using EverydayThrills.Inputs.Interface;
+using EverydayThrills.Inputs;
 
 namespace EverydayThrills
 {
@@ -23,7 +27,8 @@ namespace EverydayThrills
 
         public static int ScreenHeight { get { return _screenHeight; } }
 
-        Player player;
+        //Player player;
+        Exploration explorationScreen;
 
         public Game1()
 		{
@@ -46,7 +51,7 @@ namespace EverydayThrills
             //480 px - 30 tiles (16px tiles)
             _screenHeight = GraphicsDevice.Viewport.Height;
 
-            player = new Player();
+            //Player player = new Player();
 
             Loader.Initialize(Content);
 
@@ -62,8 +67,15 @@ namespace EverydayThrills
 			// Create a new SpriteBatch, which can be used to draw textures.
 			spriteBatch = new SpriteBatch(GraphicsDevice);
 
-			//TODO: use this.Content to load your game content here 
-		}
+            Player player = new Player();
+            Map map = new Map();
+            IInput input = new KeyboardInput();
+            player.LoadContent(Loader.SaveData.Player, input);
+            map.LoadContent(player, Loader.SaveData.Location);
+            player.Map = map;
+
+            explorationScreen = new Exploration(player, map);
+        }
 
 		/// <summary>
 		/// Allows the game to run logic such as updating the world,
@@ -79,9 +91,9 @@ namespace EverydayThrills
 				Exit();
 #endif
 
-			// TODO: Add your update logic here
+            explorationScreen.Update(gameTime);
 
-			base.Update(gameTime);
+            base.Update(gameTime);
 		}
 
 		/// <summary>
@@ -90,11 +102,13 @@ namespace EverydayThrills
 		/// <param name="gameTime">Provides a snapshot of timing values.</param>
 		protected override void Draw(GameTime gameTime)
 		{
-			graphics.GraphicsDevice.Clear(Color.CornflowerBlue);
+			graphics.GraphicsDevice.Clear(Color.Black);
 
-			//TODO: Add your drawing code here
+            spriteBatch.Begin();
+            explorationScreen.Draw(spriteBatch);
+            spriteBatch.End();
 
-			base.Draw(gameTime);
+            base.Draw(gameTime);
 		}
 	}
 }

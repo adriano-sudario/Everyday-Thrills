@@ -11,27 +11,19 @@ namespace EverydayThrills.Drawables.Sceneries.MapCollisions
     {
         public PathBlockCollision(Rectangle collisionRectangle) : base (collisionRectangle)
         {
-            CollisionOccurred += PathBlockCollision_CollisionOccurred;
+            CollisionOccurred += OnCollisionOccurred;
         }
 
-        private void PathBlockCollision_CollisionOccurred(object sender, CollisionEventArgs e)
+        private void OnCollisionOccurred(object sender, CollisionEventArgs e)
         {
-            switch (e.Player.Direction)
+            switch (e.Player.UpdatedPosition)
             {
-                case "right":
-                    e.Player.HorizontalPosition = e.RectangleCollided.Left - e.Player.Width;
+                case Player.UpdatedDirection.Horizontal:
+                    e.Player.HorizontalPosition += e.IntersectedRectangle.Width * (e.Player.Direction.X * -1);
                     break;
 
-                case "left":
-                    e.Player.HorizontalPosition = e.RectangleCollided.Right;
-                    break;
-
-                case "down":
-                    e.Player.VerticalPosition = e.RectangleCollided.Top - e.Player.Height;
-                    break;
-
-                case "up":
-                    e.Player.VerticalPosition = e.RectangleCollided.Bottom;
+                case Player.UpdatedDirection.Vertical:
+                    e.Player.VerticalPosition += e.IntersectedRectangle.Height * (e.Player.Direction.Y * -1);
                     break;
             }
         }

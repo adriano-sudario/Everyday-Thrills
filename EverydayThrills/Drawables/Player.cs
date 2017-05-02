@@ -1,4 +1,5 @@
-﻿using EverydayThrills.Inputs.Interface;
+﻿using EverydayThrills.Drawables.Sceneries;
+using EverydayThrills.Inputs.Interface;
 using EverydayThrills.JsonModels;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -13,7 +14,16 @@ namespace EverydayThrills.Drawables
         float scale;
         int hp;
 
-        public float movement { get; set; }
+        public float Movement { get; set; }
+
+        public Map Map { get; set; }
+
+        public Vector2 Direction;
+        public Vector2 PreviewDirection;
+
+        public UpdatedDirection UpdatedPosition;
+
+        public enum UpdatedDirection { None, Horizontal, Vertical };
 
         public string AnimationName
         {
@@ -24,7 +34,7 @@ namespace EverydayThrills.Drawables
             }
         }
 
-        public string Direction
+        public string DirectionName
         {
             get { return AnimationName.Split('_')[1]; }
         }
@@ -44,21 +54,44 @@ namespace EverydayThrills.Drawables
             get { return position.X; }
             set
             {
+                int increment = (int)(value - position.X);
+                CollisionRectangle.X += increment;
                 position.X = value;
-                //animation.
+                animation.HorizontalPosition = value;
+
+                if (Direction.Y == 0 || AnimationName.Split('_')[0] == "idle" || 
+                    (PreviewDirection.X != Direction.X && Direction.X != 0))
+                {
+                    if (Direction.X > 0)
+                        AnimationName = "walk_right";
+                    else if (Direction.X < 0)
+                        AnimationName = "walk_left";
+                }
             }
         }
 
         public float VerticalPosition
         {
             get { return position.Y; }
-            set { position.Y = value; }
+            set
+            {
+                int increment = (int)(value - position.Y);
+                CollisionRectangle.Y += increment;
+                position.Y = value;
+                animation.VerticalPosition = value;
+
+                if (Direction.X == 0 || AnimationName.Split('_')[0] == "idle" ||
+                    (PreviewDirection.Y != Direction.Y && Direction.Y != 0))
+                {
+                    if (Direction.Y > 0)
+                        AnimationName = "walk_down";
+                    else if (Direction.Y < 0)
+                        AnimationName = "walk_up";
+                }
+            }
         }
 
-        public Rectangle CollisionRectangle
-        {
-            get { return new Rectangle((int)position.X, (int)position.Y, Width, Height); }
-        }
+        public Rectangle CollisionRectangle;
 
         public Animation Animation
         {
@@ -74,7 +107,10 @@ namespace EverydayThrills.Drawables
             position = new Vector2(data.HorizontalPosition, data.VerticalPosition);
             animation.LoadContent(data.Character, data.AnimationName, position);
             AnimationName = data.AnimationName;
-            movement = 1f;
+            Movement = 1f;
+            CollisionRectangle = new Rectangle((int)(HorizontalPosition + data.CollisionRectangle.X),
+                                               (int)(VerticalPosition + data.CollisionRectangle.Y),
+                                               data.CollisionRectangle.Width, data.CollisionRectangle.Height);
         }
 
         public void Update(GameTime gameTime)
@@ -93,50 +129,35 @@ namespace EverydayThrills.Drawables
         {
             input.GetInputs();
 
-            Vector2 walkValue = new Vector2(input.MoveX(), input.MoveY());
+            PreviewDirection = Direction;
+            Direction = new Vector2(input.MoveX(), input.MoveY());
 
-            if (walkValue.X != 0 || walkValue.Y != 0)
-            {
-                Walk(walkValue);
-            }
+            if (Direction.X != 0 || Direction.Y != 0)
+                Walk();
             else
+                AnimationName = "idle_" + DirectionName;
+        }
+
+        public void Walk()
+        {
+            if (Direction.X != 0)
             {
-                AnimationName = "idle_" + Direction;
+                HorizontalPosition += (Movement * Direction.X);
+                CollisionCheck(UpdatedDirection.Horizontal);
+            }
+
+            if (Direction.Y != 0)
+            {
+                VerticalPosition += (Movement * Direction.Y);
+                CollisionCheck(UpdatedDirection.Vertical);
             }
         }
 
-        public void Walk(Vector2 multiplier)
+        public void CollisionCheck(UpdatedDirection updatedPosition)
         {
-            string direction = "";
-
-            if (multiplier.X != 0)
-            {
-                position.X += (movement * multiplier.X);
-                if (multiplier.X > 0)
-                    direction = "right";
-                else if (multiplier.X < 0)
-                    direction = "left";
-                //Map.UpdatePlayerAfterMovement(this, direction);
-            }
-
-            if (multiplier.Y != 0)
-            {
-                position.Y += (movement * multiplier.Y);
-                if (multiplier.Y > 0)
-                    direction = "down";
-                else if (multiplier.Y < 0)
-                    direction = "up";
-                //Map.UpdatePlayerAfterMovement(this, direction);
-            }
-
-            if (multiplier.X > 0)
-                AnimationName = "walk_right";
-            else if (multiplier.X < 0)
-                AnimationName = "walk_left";
-            else if (multiplier.Y > 0)
-                AnimationName = "walk_down";
-            else if (multiplier.Y < 0)
-                AnimationName = "walk_up";
+            UpdatedPosition = updatedPosition;
+            Map.CollisionCheck();
+            UpdatedPosition = UpdatedDirection.None;
         }
     }
 }

@@ -3,7 +3,8 @@
     "character": "karla",
     "animationName": "idle_down",
     "horizontalPosition": 144,
-    "verticalPosition":  208
+    "verticalPosition": 208,
+    "collision":  "1-11-10-5"
   },
-  "location": "beach"
+  "location": "city"
 }
