@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EverydayThrills.Code;
+using Microsoft.Xna.Framework;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -23,8 +24,8 @@ namespace EverydayThrills.JsonModels
         public MapModel(string name, Layer[] layers, int tilewidth, int width, int height)
         {
             Name = name;
-            Width = width * tilewidth;
-            Height = height * tilewidth;
+            Width = (int)((width * tilewidth) * GlobalConstants.Scale);
+            Height = (int)((height * tilewidth) * GlobalConstants.Scale);
             Layers = layers;
         }
 
@@ -84,6 +85,7 @@ namespace EverydayThrills.JsonModels
             public int X;
             public int Y;
             public string Type;
+            public Rectangle DestinationRectangle;
 
             public string Direction;
             public float? MoveSpeed;
@@ -99,6 +101,7 @@ namespace EverydayThrills.JsonModels
             public LayerObject(int id, int width, int height, int x, int y, string type, 
                                LayerCustomProperties properties, LayerAnimationInfo animation)
             {
+                bool isScaled = true;
                 Id = id;
                 Width = width;
                 Height = height;
@@ -106,6 +109,7 @@ namespace EverydayThrills.JsonModels
                 Y = y;
                 if (type != "collision")
                     Y -= height;
+                SetDestinationRectangle(isScaled);
                 Type = type;
 
                 if (properties != null)
@@ -117,8 +121,14 @@ namespace EverydayThrills.JsonModels
                                                Width, Height);
                     if (properties.Collision.HasValue)
                     {
-                        Collision = new Rectangle(properties.Collision.Value.X + X, properties.Collision.Value.Y + Y,
-                                                  properties.Collision.Value.Width, properties.Collision.Value.Height);
+                        Collision = new Rectangle(
+                                                  (int)(properties.Collision.Value.X * GlobalConstants.Scale) + 
+                                                  DestinationRectangle.X, 
+                                                  (int)(properties.Collision.Value.Y * GlobalConstants.Scale) + 
+                                                  DestinationRectangle.Y,
+                                                  (int)(properties.Collision.Value.Width * GlobalConstants.Scale),
+                                                  (int)(properties.Collision.Value.Height * GlobalConstants.Scale)
+                                                  );
                     }
                     ToId = properties.ToId;
                     ToMap = properties.ToMap;
@@ -135,6 +145,23 @@ namespace EverydayThrills.JsonModels
                         AnimationSequence.Add(new Rectangle((int)s.Source.X, (int)s.Source.Y, Width, Height));
                     }
                 }
+            }
+
+            public void SetDestinationRectangle(bool isScaled)
+            {
+                int destinationWidth = Width;
+                int destinationHeight = Height;
+                if (isScaled)
+                {
+                    destinationWidth = (int)(Width * GlobalConstants.Scale);
+                    destinationHeight = (int)(Height * GlobalConstants.Scale);
+                }
+                DestinationRectangle = new Rectangle(
+                                                     (int)(X * GlobalConstants.Scale),
+                                                     (int)(Y * GlobalConstants.Scale),
+                                                     destinationWidth,
+                                                     destinationHeight
+                                                    );
             }
         }
 

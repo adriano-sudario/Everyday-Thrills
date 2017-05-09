@@ -1,4 +1,5 @@
-﻿using EverydayThrills.Drawables.Sceneries;
+﻿using EverydayThrills.Code;
+using EverydayThrills.Drawables.Sceneries;
 using EverydayThrills.Inputs.Interface;
 using EverydayThrills.JsonModels;
 using Microsoft.Xna.Framework;
@@ -58,6 +59,7 @@ namespace EverydayThrills.Drawables
                 CollisionRectangle.X += increment;
                 position.X = value;
                 animation.HorizontalPosition = value;
+                Camera.ScrollHorizontally(position, Width, increment);
 
                 if (Direction.Y == 0 || AnimationName.Split('_')[0] == "idle" || 
                     (PreviewDirection.X != Direction.X && Direction.X != 0))
@@ -79,6 +81,7 @@ namespace EverydayThrills.Drawables
                 CollisionRectangle.Y += increment;
                 position.Y = value;
                 animation.VerticalPosition = value;
+                Camera.ScrollVertically(position, Height, increment);
 
                 if (Direction.X == 0 || AnimationName.Split('_')[0] == "idle" ||
                     (PreviewDirection.Y != Direction.Y && Direction.Y != 0))
@@ -102,15 +105,19 @@ namespace EverydayThrills.Drawables
                                 float scale = 1f)
         {
             this.input = input;
-            this.scale = scale;
+            this.scale = scale * GlobalConstants.Scale;
             animation = new Animation();
-            position = new Vector2(data.HorizontalPosition, data.VerticalPosition);
-            animation.LoadContent(data.Character, data.AnimationName, position);
+            position = new Vector2(
+                                   (int)(data.HorizontalPosition * GlobalConstants.Scale),
+                                   (int)(data.VerticalPosition * GlobalConstants.Scale)
+                                   );
+            animation.LoadContent(data.Character, data.AnimationName, position, this.scale);
             AnimationName = data.AnimationName;
-            Movement = 1f;
-            CollisionRectangle = new Rectangle((int)(HorizontalPosition + data.CollisionRectangle.X),
-                                               (int)(VerticalPosition + data.CollisionRectangle.Y),
-                                               data.CollisionRectangle.Width, data.CollisionRectangle.Height);
+            Movement = 3f;
+            CollisionRectangle = new Rectangle((int)(HorizontalPosition + (data.CollisionRectangle.X * this.scale)),
+                                               (int)(VerticalPosition + (data.CollisionRectangle.Y * this.scale)),
+                                               (int)(data.CollisionRectangle.Width * this.scale),
+                                               (int)(data.CollisionRectangle.Height * this.scale));
         }
 
         public void Update(GameTime gameTime)

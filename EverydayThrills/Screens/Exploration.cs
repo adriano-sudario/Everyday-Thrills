@@ -20,6 +20,7 @@ namespace EverydayThrills.Screens
         {
             player.Update(gameTime);
             map.Update(gameTime);
+            Camera.Update();
         }
 
         public void Draw(SpriteBatch spriteBatch)

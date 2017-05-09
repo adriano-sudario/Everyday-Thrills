@@ -51,6 +51,9 @@ namespace EverydayThrills
             //480 px - 30 tiles (16px tiles)
             _screenHeight = GraphicsDevice.Viewport.Height;
 
+            Camera.ScreenWidth = ScreenWidth;
+            Camera.ScreenHeight = ScreenHeight;
+
             //Player player = new Player();
 
             Loader.Initialize(Content);
@@ -104,7 +107,9 @@ namespace EverydayThrills
 		{
 			graphics.GraphicsDevice.Clear(Color.Black);
 
-            spriteBatch.Begin();
+            spriteBatch.Begin(
+                SpriteSortMode.Deferred, null, SamplerState.PointClamp, null, null, null, Camera.ViewMatrix
+                );
             explorationScreen.Draw(spriteBatch);
             spriteBatch.End();
 

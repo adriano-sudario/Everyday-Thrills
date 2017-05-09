@@ -37,6 +37,10 @@ namespace EverydayThrills.Drawables.Sceneries
             SetElements(model);
             width = model.Width;
             height = model.Height;
+            Camera.MapWidth = width;
+            Camera.MapHeight = height;
+            Camera.SetInitialPosition(new Vector2(player.HorizontalPosition, player.VerticalPosition),
+                                      player.Width, player.Height);
             name = model.Name;
             atlas = Loader.LoadTexture("mapAtlas");
             ////List<int[]> collisionArray = (List<int[]>)Utilities.LoadDeserializedJsonFile<object>(model.dataArrayFileName);
@@ -62,23 +66,21 @@ namespace EverydayThrills.Drawables.Sceneries
             {
                 MapCollision collision = null;
                 MapElement mapElement = null;
-                Rectangle destinationRectangle = new Rectangle(layerObject.X, layerObject.Y,
-                                                               layerObject.Width, layerObject.Height);
 
                 switch (type)
                 {
                     case LayerType.Background:
-                        mapElement = new MapElement(layerObject.Source.Value, destinationRectangle);
+                        mapElement = new MapElement(layerObject.Source.Value, layerObject.DestinationRectangle);
                         backgroundElements.Add(mapElement);
                         break;
 
                     case LayerType.Parallax:
-                        mapElement = new MapElement(layerObject.Source.Value, destinationRectangle);
+                        mapElement = new MapElement(layerObject.Source.Value, layerObject.DestinationRectangle);
                         backgroundElements.Add(mapElement);
                         break;
 
                     case LayerType.PathBlock:
-                        collision = new PathBlockCollision(destinationRectangle);
+                        collision = new PathBlockCollision(layerObject.DestinationRectangle);
                         collisions.Add(collision);
                         break;
 
@@ -90,12 +92,16 @@ namespace EverydayThrills.Drawables.Sceneries
                             if (layerObject.AnimationSequence != null)
                             {
                                 ElementAnimation animation = GetAnimation(layerObject);
-                                mapElement = new MapElement(layerObject.Source.Value, destinationRectangle, 
-                                                            animation, collision);
+                                mapElement = new MapElement(
+                                                            layerObject.Source.Value, 
+                                                            layerObject.DestinationRectangle, 
+                                                            animation, collision
+                                                            );
                             }
                             else
                             {
-                                mapElement = new MapElement(layerObject.Source.Value, destinationRectangle, collision);
+                                mapElement = new MapElement(layerObject.Source.Value, 
+                                                            layerObject.DestinationRectangle, collision);
                             }
                             middlegroundElements.Add(mapElement);
                         }
@@ -104,14 +110,18 @@ namespace EverydayThrills.Drawables.Sceneries
                             if (layerObject.AnimationSequence != null)
                             {
                                 ElementAnimation animation = GetAnimation(layerObject);
-                                mapElement = new MapElement(layerObject.Source.Value, destinationRectangle,
+                                mapElement = new MapElement(
+                                                            layerObject.Source.Value,
+                                                            layerObject.DestinationRectangle,
                                                             animation);
                             }
                             else
                             {
-                                mapElement = new MapElement(layerObject.Source.Value, destinationRectangle);
+                                mapElement = new MapElement(layerObject.Source.Value,
+                                                            layerObject.DestinationRectangle);
                             }
-                            mapElement = new MapElement(layerObject.Source.Value, destinationRectangle);
+                            mapElement = new MapElement(layerObject.Source.Value,
+                                                        layerObject.DestinationRectangle);
                             middlegroundElements.Add(mapElement);
                         }
                         break;
@@ -129,8 +139,11 @@ namespace EverydayThrills.Drawables.Sceneries
         public ElementAnimation GetAnimation(LayerObject layerObject)
         {
             ElementAnimation animation = new ElementAnimation();
-            Vector2 position = new Vector2(layerObject.X, layerObject.Y);
-            animation.LoadContent(layerObject.AnimationSequence, position, layerObject.Width, layerObject.Height,
+            Vector2 position = new Vector2(layerObject.DestinationRectangle.X, layerObject.DestinationRectangle.Y);
+            animation.LoadContent(layerObject.AnimationSequence, 
+                                  layerObject.DestinationRectangle, 
+                                  layerObject.Width, 
+                                  layerObject.Height,
                                   layerObject.AnimationRandomness.Value);
             return animation;
         }

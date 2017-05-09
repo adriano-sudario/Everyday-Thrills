@@ -24,7 +24,7 @@ namespace EverydayThrills.Drawables.Sceneries.MapLayers
         Rectangle destinationRectangle;
         List<AnimationFrame> frames;
 
-        public void LoadContent(List<Rectangle> sources, Vector2 position, int width, int height, float? randomness = null)
+        public void LoadContent(List<Rectangle> sources, Rectangle destinationRectangle, int width, int height, float? randomness = null)
         {
             isActive = true;
             frames = new List<AnimationFrame>();
@@ -38,7 +38,7 @@ namespace EverydayThrills.Drawables.Sceneries.MapLayers
                 frames.Add(frame);
             }
             currentFrame = 0;
-            destinationRectangle = new Rectangle((int)position.X, (int)position.Y, width, height);
+            this.destinationRectangle = destinationRectangle;
             sourceRectangle = new Rectangle(frames[currentFrame].Frame.X, frames[currentFrame].Frame.Y, width, height);
 
             if (randomness.HasValue)

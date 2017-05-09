@@ -42,9 +42,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Code\Calculator.cs" />
+    <Compile Include="Code\GlobalConstants.cs" />
     <Compile Include="Code\Loader.cs" />
     <Compile Include="Drawables\Animation.cs" />
     <Compile Include="Drawables\Player.cs" />
+    <Compile Include="Drawables\Sceneries\Camera.cs" />
     <Compile Include="Drawables\Sceneries\Map.cs" />
     <Compile Include="Drawables\Sceneries\MapCollisions\MapCollision.cs" />
     <Compile Include="Drawables\Sceneries\MapCollisions\PathBlockCollision.cs" />
