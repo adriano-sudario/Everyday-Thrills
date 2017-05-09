@@ -53,6 +53,7 @@
     <Compile Include="Drawables\Sceneries\MapCollisions\TransitionCollision.cs" />
     <Compile Include="Drawables\Sceneries\MapLayers\ElementAnimation.cs" />
     <Compile Include="Drawables\Sceneries\MapLayers\MapElement.cs" />
+    <Compile Include="Drawables\Sceneries\MapLayers\ParallaxElement.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="Inputs\GamePadInput.cs" />
     <Compile Include="Inputs\Interface\IInput.cs" />

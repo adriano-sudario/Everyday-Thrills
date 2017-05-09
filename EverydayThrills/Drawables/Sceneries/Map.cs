@@ -75,7 +75,12 @@ namespace EverydayThrills.Drawables.Sceneries
                         break;
 
                     case LayerType.Parallax:
-                        mapElement = new MapElement(layerObject.Source.Value, layerObject.DestinationRectangle);
+                        ParallaxElement.HorizontalDirection parallaxDirection = ParallaxElement.HorizontalDirection.Left;
+                        if (layerObject.Direction == "right")
+                            parallaxDirection = ParallaxElement.HorizontalDirection.Right;
+                        mapElement = new ParallaxElement(layerObject.MoveSpeed.Value,
+                                                         parallaxDirection,
+                                                         layerObject.Source.Value, layerObject.DestinationRectangle);
                         backgroundElements.Add(mapElement);
                         break;
 

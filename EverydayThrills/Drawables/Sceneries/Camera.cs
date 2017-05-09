@@ -38,26 +38,6 @@ namespace EverydayThrills.Drawables.Sceneries
 
         public static void SetInitialPosition(Vector2 playerPosition, int playerWidth, int playerHeight)
         {
-            //if (playerPosition.X + (playerWidth / 2) < (ScreenWidth / 2))
-            //    position.X = 0;
-            //else if (playerPosition.X + (playerWidth / 2) > MapWidth - (ScreenWidth / 2))
-            //    position.X = MapWidth - (ScreenWidth / 2);
-            //else
-            //    position.X = playerPosition.X - (ScreenWidth / 2) + (playerWidth / 2);
-
-            //if (playerPosition.Y + (playerHeight / 2) < (ScreenHeight / 2))
-            //    position.Y = 0;
-            //else if (playerPosition.Y + (playerHeight / 2) > MapHeight - (ScreenHeight / 2))
-            //    position.Y = MapHeight - (ScreenHeight / 2);
-            //else
-            //    position.Y = playerPosition.Y - (ScreenHeight / 2) + (playerHeight / 2);
-
-            //position.X *= -1;
-            //position.Y *= -1;
-
-            //ScrollHorizontally(playerPosition, playerWidth, (int)playerPosition.X);
-            //ScrollVertically(playerPosition, playerHeight, (int)playerPosition.Y);
-
             float positionHorizontal = (playerPosition.X - (ScreenWidth / 2) + (playerWidth / 2)) *-1;
             float minWidth = (MapWidth - (ScreenWidth / 2)) * -1;
             float maxWidth = 0;
@@ -74,8 +54,6 @@ namespace EverydayThrills.Drawables.Sceneries
                                           minHeight,
                                           maxHeight
                                           );
-
-            //position.Y = -100;
         }
 
         public static void Update()
