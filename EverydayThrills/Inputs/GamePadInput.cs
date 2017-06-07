@@ -11,8 +11,8 @@ namespace EverydayThrills.Inputs
 {
     class GamePadInput : IInput
     {
-        public GamePadState currentGamePadState;
-        public GamePadState previousGamePadState;
+        GamePadState currentGamePadState;
+        GamePadState previousGamePadState;
 
         public void GetInputs()
         {

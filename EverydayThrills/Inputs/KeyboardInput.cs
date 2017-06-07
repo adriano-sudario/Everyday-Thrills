@@ -10,8 +10,8 @@ namespace EverydayThrills.Inputs
 {
     class KeyboardInput : IInput
     {
-        public KeyboardState currentKeyboardState;
-        public KeyboardState previousKeyboardState;
+        KeyboardState currentKeyboardState;
+        KeyboardState previousKeyboardState;
 
         Keys leftKey;
         Keys rightKey;
